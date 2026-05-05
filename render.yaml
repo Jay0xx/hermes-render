@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: hermes-telegram
+    env: node
+    plan: free
+    buildCommand: bash build.sh
+    startCommand: node server.js
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: CUSTOM_API_KEY
+        sync: false
+      - key: CUSTOM_BASE_URL
+        value: https://api.tokenrouter.com/v1
+      - key: HERMES_MODEL
+        value: deepseek/deepseek-v4-pro
