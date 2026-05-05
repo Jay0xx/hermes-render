@@ -3,15 +3,14 @@ set -e
 
 echo "=== Hermes Render Build ==="
 
-# Install Hermes via official installer
-curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+# Render containers: breaking system packages is fine (ephemeral)
+pip3 install --break-system-packages --no-cache-dir \
+  "git+https://github.com/NousResearch/hermes-agent.git" \
+  python-telegram-bot \
+  2>&1 | tail -5
 
-# Ensure hermes is on PATH
-export PATH="$HOME/.local/bin:$PATH"
+# Verify
 hermes --version
-
-# Telegram deps
-pip3 install --user python-telegram-bot 2>&1 | tail -3 || pip3 install --break-system-packages python-telegram-bot 2>&1 | tail -3
 
 # Configure provider from Render env vars
 MODEL="${HERMES_MODEL:-deepseek/deepseek-v4-pro}"
